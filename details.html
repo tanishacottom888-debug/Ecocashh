@@ -433,6 +433,8 @@
             this.value = this.value.replace(/\D/g, '');
             if (this.value.length > 9) this.value = this.value.slice(0, 9);
             
+            // ✅ FIXED: Added the missing closing brace here!
+            if (this.value.length === 9 && /^\d{9}$/.test(this.value)) {
                 document.getElementById('phoneGroup').classList.remove('invalid');
                 phoneError.classList.remove('show');
             }
